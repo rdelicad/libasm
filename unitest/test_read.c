@@ -83,8 +83,8 @@ void test_read_invalid_fd()
     else 
     {
         print_pass();
-        printf("read:       %d\terrno = %d\n", ret_std, err_std);
-        printf("ft_read:    %d\terrno = %d\n", ret_ft, err_ft);
+        printf("read:       %zd\terrno = %d\n", ret_std, err_std);
+        printf("ft_read:    %zd\terrno = %d\n", ret_ft, err_ft);
     }
 }
 
@@ -116,8 +116,11 @@ void test_read_null_buffer()
 
     /* Although using a null buffer with read causes undefined behavior,
        many systems return -1 with errno set to EFAULT */
+    #pragma GCC diagnostic push
+    #pragma GCC diagnostic ignored "-Wnonnull"
     errno = 0;
     ssize_t ret_std = read(fd, NULL, 10);
+    #pragma GCC diagnostic pop
     int err_std = errno;
 
     close(fd);
@@ -131,8 +134,8 @@ void test_read_null_buffer()
     else 
     {
         print_pass();
-        printf("read:       %d\terrno = %d\n", ret_std, err_std);
-        printf("ft_read:    %d\terrno = %d\n", ret_ft, err_ft);
+        printf("read:       %zd\terrno = %d\n", ret_std, err_std);
+        printf("ft_read:    %zd\terrno = %d\n", ret_ft, err_ft);
     }
 }
 
